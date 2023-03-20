@@ -1,7 +1,7 @@
 class Chess{
     public static void main(String arv[]){
-        Roi roi=new Roi(3,3);
-        roi.get_solution_coord();
-
+        Board board = new Board();
+        board.init();
+        System.out.println(board);
     }
 }
