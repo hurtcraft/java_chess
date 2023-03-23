@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +18,11 @@ public class Board{
     }
     
     public Piece get_piece(int x , int y){
+        
         return board_tab[x][y];
     }
     public void set_piece(Piece p, Coord c){
-
+        board_tab[c.get_x()][c.get_y()]=p;
     }
     public void init(){
         init_pion();
