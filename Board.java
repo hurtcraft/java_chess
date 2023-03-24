@@ -1,12 +1,19 @@
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class Board{
     private Piece board_tab[][];
     private final int size;
     private Map<String,Piece> pieces_blanc;
     private Map<String,Piece> pieces_noir;
     private boolean init_done;
+
+    private JFrame window;
+    private Chess_panel panel;
+    
     public Board(){
         this.size=8;
         this.board_tab=new Piece[size][size];
@@ -14,7 +21,9 @@ public class Board{
         this.pieces_noir=new HashMap<>();
         this.init_done=false;
         
-
+        
+        this.panel=new Chess_panel();
+        this.window=new Chess_window(this.panel);
     }
     
     public Piece get_piece(int x , int y){
@@ -71,8 +80,9 @@ public class Board{
         int x1=1;
         int x2=this.size-2;
         for (int i = 0; i < board_tab.length; i++) {
-            this.pieces_blanc.put(new String("P"+i), new Pion(x1,i));
-            this.pieces_noir.put(new String("P"+i), new Pion(x2,i));
+            this.pieces_blanc.put(new String("P"+i), new Pion(x1,i,false));
+
+            this.pieces_noir.put(new String("P"+i), new Pion(x2,i,true));
         }
     }
     private void init_fou(){
@@ -131,7 +141,9 @@ public class Board{
     }
     
     
-    
+    public void affichage(JFrame fenetre){
+        
+    }
     public String toString(){
         StringBuilder sb= new StringBuilder();
         for (int i = 0; i <this.size; i++) {
