@@ -1,6 +1,7 @@
+
 import java.util.ArrayList;
 
-class Pion extends Piece{
+public class Pion extends Piece{
     private Boolean couleur;
     public Pion(Boolean couleur){
         this.nom="Pion";
@@ -45,5 +46,7 @@ class Pion extends Piece{
         }
         return solution_coord;
     }
+
+
     
 }

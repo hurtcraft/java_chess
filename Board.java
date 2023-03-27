@@ -11,7 +11,7 @@ public class Board{
     private Map<String,Piece> pieces_noir;
     private boolean init_done;
 
-    private JFrame window;
+    private Chess_window window;
     private Chess_panel panel;
     
     public Board(){

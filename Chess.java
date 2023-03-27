@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 class Chess{
 
     public static void main(String arv[]){

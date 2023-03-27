@@ -1,6 +1,7 @@
+
 import java.util.ArrayList;
 
-class Fou extends Piece{
+public class Fou extends Piece{
     public Fou(){
         this.nom="Fou";
     }
