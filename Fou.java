@@ -1,14 +1,16 @@
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Fou extends Piece{
     public Fou(){
         this.nom="Fou";
     }
-    public Fou(int x, int y){
+    public Fou(int x, int y, BufferedImage img){
         this();
         this.x=x;
         this.y=y;
+        this.img=img;
     }
 
     

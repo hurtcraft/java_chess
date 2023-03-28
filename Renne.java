@@ -1,15 +1,17 @@
 
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 class Renne extends Piece{
 
     public Renne(){
         this.nom="Renne";
     }
-    public Renne(int x,int y){
+    public Renne(int x,int y,BufferedImage img){
         this();
         this.x=x;
         this.y=y;
+        this.img=img;
     }
     ArrayList<Coord> get_solution_ligne(Board board){
         ArrayList<Coord> solution_coord = new ArrayList<>();

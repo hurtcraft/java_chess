@@ -19,28 +19,31 @@ public class Chess_panel extends JPanel{
     private BufferedImage img;
     private BufferedImage white_piece_img[];
     private BufferedImage black_piece_img[]; 
+    private Board board;
     
-    
-    public Chess_panel( ){
+    public Chess_panel(Board board ){
         this.mouse_input=new MouseInput(this);
         this.green=new Color(127,166,80);
         this.white=new Color(235,236,208);
-        addMouseMotionListener(mouse_input);
-        addMouseListener(mouse_input);
+        //addMouseMotionListener(mouse_input);
+        //addMouseListener(mouse_input);
         this.import_img();
-        this.load_piece_img();        
+        this.load_piece_img();   
+        this.board=board;
+        //this.board.init();
+        
+        
     }
     
     private void load_piece_img() {
-        int nb_piece=5;
-        int width=80;
-        int height=80;
+        int nb_piece=6;
+        int width=this.img.getWidth()/nb_piece;
+        int height=this.img.getHeight()/2;
         this.white_piece_img=new BufferedImage[nb_piece];
         this.white_piece_img=new BufferedImage[nb_piece];
         for (int i = 0; i <nb_piece; i++) {
             this.white_piece_img[i]=this.img.getSubimage(i*width, 0, width, height);
             this.white_piece_img[i]=this.img.getSubimage(i*width, height, width, height);
-        
         }
     }
 
@@ -72,8 +75,15 @@ public class Chess_panel extends JPanel{
         int x=80;//largeur d'une case;
         int y=80;//longueur d'une case;
         int nb_case=8;// nb de case dans une largeur
-
-
+        
+        //g.drawImage(this.img,x, y, (int)this.img.getWidth()/2,(int)this.img.getHeight()/2,null);
+        draw_board(g, nb_case, x, y);
+        g.drawImage(this.white_piece_img[5], x, y/2, green, getFocusCycleRootAncestor());
+        draw_piece(g);
+        draw_cadre(g, nb_case, x, y);
+        repaint();
+    }
+    public void draw_board(Graphics g ,int nb_case, int x,int y){
         for (int i = 0; i < nb_case; i++) {
             for (int j = 0; j <nb_case; j++) {
                 if(i%2!=0){
@@ -95,18 +105,23 @@ public class Chess_panel extends JPanel{
 
                 g.fillRect(x+(j*x), (y/2)+i*y, x, y);
             }
-            
         }
 
-        
+    }
+    public void draw_cadre(Graphics g,int nb_case,int x,int y){
         g.setColor(Color.black);
-        int y_plateau=y/2;
 
-        
-        //g.drawImage(this.img,x, y, (int)this.img.getWidth()/2,(int)this.img.getHeight()/2,null);
-        g.drawImage(this.white_piece_img[1], x, y/2, green, getFocusCycleRootAncestor());
         g.drawRect(x,y/2, x*nb_case, y*nb_case);
-        g.drawRect(x+1,y_plateau, x*nb_case, y*nb_case);
-        repaint();
+        g.drawRect(x+1,y/2, x*nb_case, y*nb_case);
+    }
+    public void draw_piece(Graphics g ){
+        
+    }
+    public BufferedImage get_img(boolean couleur,int index){
+        if(!couleur){
+            return this.white_piece_img[index];
+        }
+        return this.black_piece_img[index];
     }
 }
+

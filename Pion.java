@@ -1,4 +1,5 @@
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Pion extends Piece{
@@ -9,10 +10,11 @@ public class Pion extends Piece{
     }
     //pour inversé les pion ajouté un facteur 7
     
-    public Pion(int x , int y,Boolean couleur){
+    public Pion(int x , int y,Boolean couleur,BufferedImage img){
         this(couleur);
         this.x=x;
         this.y=y;
+        this.img=img;
     }
     @Override
     ArrayList<Coord> get_solution_coord(Board board) {

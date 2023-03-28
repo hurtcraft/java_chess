@@ -1,14 +1,16 @@
 
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 class Tour extends Piece{
     public Tour(){
         this.nom="Tour";
     }
-    public Tour(int x , int y ){
+    public Tour(int x , int y , BufferedImage img){
         this();
         this.x=x;
         this.y=y;
+        this.img=img;
     }
     
     ArrayList<Coord> get_solution_coord(Board board) {

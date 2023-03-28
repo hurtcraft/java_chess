@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 
 abstract class Piece {
@@ -9,6 +10,7 @@ abstract class Piece {
     protected String nom;
     protected ArrayList<Coord> solution_coord= new ArrayList<>();
     protected int max_solution;
+    protected BufferedImage img;
     
     
     
@@ -22,7 +24,9 @@ abstract class Piece {
     protected Coord get_coord(){
         return new Coord(this.x,this.y);
     }
-
+    protected BufferedImage get_img(){
+        return this.img;
+    }
     protected boolean coord_in_board(Coord my_coord){
         int x = my_coord.get_x();
         int y = my_coord.get_y();

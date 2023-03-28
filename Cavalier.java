@@ -1,14 +1,16 @@
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Cavalier extends Piece{
     public Cavalier(){
         this.nom="Cavalier";
     }
-    public Cavalier(int x ,int y){
+    public Cavalier(int x ,int y, BufferedImage img){
         this();
         this.x=x;
         this.y=y;
+        this.img=img;
     }
 
     ArrayList<Coord> get_solution_coord(Board board){

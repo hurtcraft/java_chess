@@ -1,15 +1,17 @@
 
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 class Roi extends Piece{
     public Roi(){
         this.nom="Roi";
 
     }
-    public Roi(int x,int y){
+    public Roi(int x,int y,BufferedImage img){
         this();
         this.x=x;
         this.y=y;
+        this.img=img;
     }
     @Override
     ArrayList<Coord> get_solution_coord(Board board) {

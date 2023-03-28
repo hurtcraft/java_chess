@@ -22,8 +22,10 @@ public class Board{
         this.init_done=false;
         
         
-        this.panel=new Chess_panel();
+        this.panel=new Chess_panel(this);
         this.window=new Chess_window(this.panel);
+        this.init();
+        System.out.println(this);
     }
     
     public Piece get_piece(int x , int y){
@@ -62,16 +64,17 @@ public class Board{
         int x=0;
         int y1=0;
         int y2=this.size-1;
-        tour=new Tour(x,y1);
+        int t=4;
+        tour=new Tour(x,y1,this.panel.get_img(false, t));
         this.pieces_blanc.put("T1", tour);
-        tour=new Tour(x,y2);
+        tour=new Tour(x,y2,this.panel.get_img(false,t));
         this.pieces_blanc.put("T2", tour);
 
         x=this.size-1;
         //le bas du plateau sont les noirs
-        tour=new Tour(x,y1);
+        tour=new Tour(x,y1,this.panel.get_img(true, t));
         this.pieces_noir.put("T1", tour);
-        tour=new Tour(x,y2);
+        tour=new Tour(x,y2,this.panel.get_img(true, t));
         this.pieces_noir.put("T2", tour);
 
     }
@@ -79,10 +82,11 @@ public class Board{
 
         int x1=1;
         int x2=this.size-2;
+        int i_pion=5;
         for (int i = 0; i < board_tab.length; i++) {
-            this.pieces_blanc.put(new String("P"+i), new Pion(x1,i,false));
+            this.pieces_blanc.put(new String("P"+i), new Pion(x1,i,false,this.panel.get_img(false, i_pion)));
 
-            this.pieces_noir.put(new String("P"+i), new Pion(x2,i,true));
+            this.pieces_noir.put(new String("P"+i), new Pion(x2,i,true,this.panel.get_img(true, i_pion)));
         }
     }
     private void init_fou(){
@@ -90,17 +94,17 @@ public class Board{
         int x=0;
         int y1=2;
         int y2=this.size-3;
-
-        fou=new Fou(x,y1);
+        int i_fou=2;
+        fou=new Fou(x,y1,this.panel.get_img(false, i_fou));
         this.pieces_blanc.put("F1", fou);
-        fou=new Fou(x,y2);
+        fou=new Fou(x,y2,this.panel.get_img(false, i_fou));
         this.pieces_blanc.put("F2", fou);
 
         x=this.size-1;
         //le bas du plateau sont les noirs
-        fou=new Fou(x,y1);
+        fou=new Fou(x,y1,this.panel.get_img(true, i_fou));
         this.pieces_noir.put("F1", fou);
-        fou=new Fou(x,y2);
+        fou=new Fou(x,y2,this.panel.get_img(true, i_fou));
         this.pieces_noir.put("F2", fou);
     }
     private void init_cavalier(){
@@ -108,35 +112,37 @@ public class Board{
         int x=0;
         int y1=1;
         int y2=this.size-2;
-        
-        cavalier=new Cavalier(x,y1);
+        int i_cavalier=3;
+        cavalier=new Cavalier(x,y1,this.panel.get_img(false, i_cavalier));
         this.pieces_blanc.put("C1", cavalier);
-        cavalier=new Cavalier(x,y2);
+        cavalier=new Cavalier(x,y2,this.panel.get_img(false, i_cavalier));
         this.pieces_blanc.put("C2", cavalier);
 
         x=this.size-1;
 
-        cavalier=new Cavalier(x,y1);
+        cavalier=new Cavalier(x,y1,this.panel.get_img(true, i_cavalier));
         this.pieces_noir.put("C1",cavalier);
-        cavalier=new Cavalier(x,y2);
+        cavalier=new Cavalier(x,y2,this.panel.get_img(true, i_cavalier));
         this.pieces_noir.put("C2",cavalier);
 
     }
     private void init_roi(){
         Roi roi;
         int y=4;
-        roi=new Roi(0,y);
+        int i_roi=0;
+        roi=new Roi(0,y,this.panel.get_img(false, i_roi));
         this.pieces_blanc.put("Roi", roi);
-        roi=new Roi(this.size-1,y);
+        roi=new Roi(this.size-1,y,this.panel.get_img(true, i_roi));
         this.pieces_noir.put("Roi", roi);
         
     }
     private void init_renne(){
         Renne renne;
         int y=3;
-        renne=new Renne(0,y);
+        int i_renne=1;
+        renne=new Renne(0,y,this.panel.get_img(false, i_renne));
         this.pieces_blanc.put("Renne", renne);
-        renne=new Renne(this.size-1,y);
+        renne=new Renne(this.size-1,y,this.panel.get_img(true,i_renne));
         this.pieces_noir.put("Renne", renne);
     }
     
