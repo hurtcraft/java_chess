@@ -1,13 +1,10 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
+import java.util.Map;
+
 import javax.swing.JPanel;
 
 public class Chess_panel extends JPanel{
@@ -16,71 +13,65 @@ public class Chess_panel extends JPanel{
     private Color white;
 
     
-    private BufferedImage img;
-    private BufferedImage white_piece_img[];
-    private BufferedImage black_piece_img[]; 
-    private Board board;
+    private Map<String,Piece> pieces_blanc;
+    private Map<String,Piece> pieces_noir;
     
-    public Chess_panel(Board board ){
-        this.mouse_input=new MouseInput(this);
+    private static final int largeur_case=80;
+    private static final int longueur_case=80;
+
+    private  int x_board;
+    private  int y_board;
+    private static final int NB_CASE=8;
+
+    private Board board;
+    public Chess_panel(Board board ,Map<String,Piece> pieces_blanc,Map<String,Piece>pieces_noir){
+        this.mouse_input=new MouseInput(this,board);
+        this.x_board=largeur_case;
+        this.y_board=longueur_case/2;
         this.green=new Color(127,166,80);
         this.white=new Color(235,236,208);
-        //addMouseMotionListener(mouse_input);
-        //addMouseListener(mouse_input);
-        this.import_img();
-        this.load_piece_img();   
+        addMouseMotionListener(mouse_input);
+        addMouseListener(mouse_input);
+        this.pieces_blanc=pieces_blanc;
+        this.pieces_noir=pieces_noir;
         this.board=board;
+
         //this.board.init();
-        
-        
+
     }
-    
-    private void load_piece_img() {
-        int nb_piece=6;
-        int width=this.img.getWidth()/nb_piece;
-        int height=this.img.getHeight()/2;
-        this.white_piece_img=new BufferedImage[nb_piece];
-        this.white_piece_img=new BufferedImage[nb_piece];
-        for (int i = 0; i <nb_piece; i++) {
-            this.white_piece_img[i]=this.img.getSubimage(i*width, 0, width, height);
-            this.white_piece_img[i]=this.img.getSubimage(i*width, height, width, height);
-        }
+    public Board get_board(){
+        return this.board;
     }
-
-    public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
-        //merci stackoverflow
-        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-    
-        Graphics2D g2d = dimg.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-    
-        return dimg;
-    }  
-
-    public void import_img(){
-        InputStream is=getClass().getResourceAsStream("Pieces.png");
-
-        try {
-            this.img=ImageIO.read(is);
-            int width=(int)((int)this.img.getWidth()/1.7);
-            int height=(int) ((int) this.img.getHeight()/1.7);
-            this.img=resize(this.img,width,height);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public int get_largeur_case(){
+        return Chess_panel.largeur_case;
+    }
+    public Map<String,Piece> get_map_pieces_blanc()
+    {
+        return this.pieces_blanc;
+    }
+    public Map<String,Piece> get_map_pieces_noir()
+    {
+        return this.pieces_noir;
+    }
+    public int get_board_x(){
+        return this.x_board;
+    }
+    public int get_board_y(){
+        return this.y_board;
+    }
+    public int get_nb_case(){
+        return Chess_panel.NB_CASE;
     }
     public void paintComponent(Graphics g){
-        int x=80;//largeur d'une case;
-        int y=80;//longueur d'une case;
-        int nb_case=8;// nb de case dans une largeur
+
         
         //g.drawImage(this.img,x, y, (int)this.img.getWidth()/2,(int)this.img.getHeight()/2,null);
-        draw_board(g, nb_case, x, y);
-        g.drawImage(this.white_piece_img[5], x, y/2, green, getFocusCycleRootAncestor());
-        draw_piece(g);
-        draw_cadre(g, nb_case, x, y);
+        draw_board(g, Chess_panel.NB_CASE, Chess_panel.largeur_case, Chess_panel.longueur_case);
+        //g.drawImage(this.white_piece_img[5], x, y/2, green, getFocusCycleRootAncestor());
+        
+        draw_cadre(g, Chess_panel.NB_CASE, Chess_panel.largeur_case, Chess_panel.longueur_case);
+        draw_piece(g,this.x_board, this.y_board);
+        draw_dot(g, 10, 10);
         repaint();
     }
     public void draw_board(Graphics g ,int nb_case, int x,int y){
@@ -114,14 +105,30 @@ public class Chess_panel extends JPanel{
         g.drawRect(x,y/2, x*nb_case, y*nb_case);
         g.drawRect(x+1,y/2, x*nb_case, y*nb_case);
     }
-    public void draw_piece(Graphics g ){
-        
-    }
-    public BufferedImage get_img(boolean couleur,int index){
-        if(!couleur){
-            return this.white_piece_img[index];
+    public void draw_piece(Graphics g ,int x , int y){
+        Piece p_tmp;
+        int X;
+        int Y;
+        for (String nom_piece : this.pieces_blanc.keySet()) {
+            p_tmp=this.pieces_blanc.get(nom_piece);
+            X=p_tmp.get_coord().get_y()*x+x;
+            Y=p_tmp.get_coord().get_x()*y+y;
+            if(nom_piece.charAt(0)=='P'){
+                Y+=y;
+            }
+            g.drawImage(p_tmp.get_img(),X,Y, getFocusCycleRootAncestor());
+
+            p_tmp=this.pieces_noir.get(nom_piece);
+            X=(p_tmp.get_coord().get_y()*x+x);
+            Y=(p_tmp.get_coord().get_x()*y+y/2)*2;
+            g.drawImage(p_tmp.get_img(),X,Y, getFocusCycleRootAncestor());
         }
-        return this.black_piece_img[index];
     }
+    public void draw_dot(Graphics g,int x , int y ){
+        
+        g.setColor(Color.GRAY);
+        g.fillOval(x, y, 10, 10);
+    }
+
 }
 
